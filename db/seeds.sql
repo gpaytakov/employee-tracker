@@ -1,4 +1,4 @@
-INSERT INTO departments
+INSERT INTO department
     (department_name)
 VALUES 
     ('science'),
@@ -6,19 +6,19 @@ VALUES
     ('ela'),
     ('math');
 
-INSERT INTO roles
-    (role_name)
+INSERT INTO role
+    (title, salary, department_id)
 VALUES
-    ('chemistry'),
-    ('biology'),
-    ('english I'),
-    ('physics'),
-    ('debate'),
-    ('computer science'),
-    ('digital media');
+    ('chemistry', 60000, 1),
+    ('biology', 60000, 1),
+    ('english I', 55000, 3),
+    ('physics', 60000, 1),
+    ('debate', 55000, 3),
+    ('computer science', 62000, 2),
+    ('digital media', 62000, 2);
 
-INSERT INTO employees
-    (first_name, last_name, role_name, manager)
+INSERT INTO employee
+    (first_name, last_name, role_id, manager_id)
 VALUES
     ('James', 'Fraser', 'chemistry', 'John Doe'),
     ('Jack', 'London', 'biology', 'John Doe'),

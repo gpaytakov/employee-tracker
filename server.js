@@ -1,7 +1,10 @@
-const express = require('express');
+
+// inquirer is imported
 const inquirer = require('inquirer');
-const db = require('./db/connection');
-const apiRoutes = require('./routes/apiRoutes');
+// mysql2 is imported
+const mysql = require('mysql2');
+// console.table is imported
+const cT = require('console.table');
 
 // questions to navigate tasks
 const questions = [
@@ -80,3 +83,10 @@ const questions = [
 }
 
 ]
+
+
+
+
+
+
+

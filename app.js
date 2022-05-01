@@ -5,7 +5,7 @@ const inquirer = require('inquirer');
 const mysql = require('mysql2');
 // console.table is imported
 const cT = require('console.table');
-const {viewDept, viewRoles, viewEmployees} = require('./functions.js')
+const {viewDept, viewRoles, viewEmployees, addDept} = require('./functions.js')
 
 
 // questions to navigate tasks
@@ -43,17 +43,12 @@ const promptUser = async () => {
         if (choice == 'view all employees') {
             viewEmployees();
         };
-        // if (choice == 'view all departments') {
-        //     viewDept();
-        // };
+        if (choice == 'add a department') {
+            addDept();
+        };
 
         
-            // case 'view all roles':
-            //     viewRoles();
-            //     break;
-            // case 'view all employees':
-            //     viewEmployees();
-            //     break;
+
             // case 'add a department':
             //     addDept();
             //     break;
@@ -92,7 +87,7 @@ const promptUser = async () => {
 
 promptUser();
 
-module.exports = {promptUser};
+exports.promptUser=promptUser;
 
 
 

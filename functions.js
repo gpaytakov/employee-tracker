@@ -1,51 +1,63 @@
 const mysql = require('mysql2');
 const connection = require('./db/connection.js')
-const {promptUser} = require('./app.js')
+const func = require('./app.js')
 const inquirer = require('inquirer');
 
 const viewDept = ( ) => {
-    const sql = `SELECT department.id AS id, department.department_name AS department FROM department`;
+    const sql = `SELECT department.id AS id, department.department_name AS department FROM department;`;
     connection.query(sql, (error, rows) => {
         if (error) throw error;
         console.table(rows);
-        // promptUser();    
+        func.promptUser();    
     })
     
 };
 const viewRoles = ( ) => {
-    const sql = `SELECT role.title AS job_title, role.department_id AS role_id, role.salary AS salary FROM role`;
+    const sql = `SELECT role.title AS job_title, role.department_id AS role_id, role.salary AS salary FROM role;`;
     connection.query(sql, (error, rows) => {
         if (error) throw error;
         console.table(rows);
-        // promptUser();    
+        func.promptUser();   
     })
     
 };
 const viewEmployees = ( ) => {
-    const sql = `SELECT employee.id, employee.first_name, employee.last_name, role.title, department.department_name, role.salary FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON employee.department_name = department.department_name LEFT JOIN role ON employee.salary = role.salary`;
+    const sql = `SELECT employee.id, employee.first_name, employee.last_name, role.title, department.department_name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id=employee.manager_id;`;
     connection.query(sql, (error, rows) => {
         if (error) throw error;
         console.table(rows);
-        // promptUser();    
+        func.promptUser();    
     })
     
 };
 
-module.exports = {viewDept, viewRoles, viewEmployees};
-// {
-//     type: 'input',
-//     name: 'viewDeps',
-//     message: 'Here is the list of all departments!',
-//     validate: input => {
-//         if (input) {
-//             viewDeps();
-//         } else {
-//             console.log('Please enter valid department name!');
-//             return false;
-//         }
-//     }
-// },
-// {
+const addDept = ( ) => {
+    return inquirer.prompt([
+        {
+            type: 'input',
+            name: 'name',
+            message: 'Please enter name of the department you want to add!',
+            validate: input => {
+                if (input) {
+                    return true;
+                } else {
+                    console.log('Please enter valid department name!');
+                    return false;
+                }
+            }
+        }
+    ]).then(answer => {
+        const sql = `INSERT INTO department (department_name) VALUES (?)`;
+        connection.query(sql, [answer.name], (error, result) => {
+            if (error) throw error;
+            console.log(`${answer.name} is added to departments!`);
+            viewDept();            
+        })
+    })
+}
+
+module.exports = {viewDept, viewRoles, viewEmployees, addDept};
+
 //     type: 'input',
 //     name: 'addDep',
 //     message: 'Please enter name of the department you want to add!',
@@ -54,19 +66,6 @@ module.exports = {viewDept, viewRoles, viewEmployees};
 //             addDep();
 //         } else {
 //             console.log('Please enter valid department name!');
-//             return false;
-//         }
-//     }
-// },
-// {
-//     type: 'input',
-//     name: 'viewRoles',
-//     message: 'Please enter role name you want to see!',
-//     validate: input => {
-//         if (input) {
-//             viewRoles();
-//         } else {
-//             console.log('Please enter valid role name!');
 //             return false;
 //         }
 //     }

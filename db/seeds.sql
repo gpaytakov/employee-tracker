@@ -19,7 +19,7 @@ VALUES
     ('math', 61000, 4);
 
 INSERT INTO employee
-    (id, first_name, last_name, role_id, manager_id)
+    (first_name, last_name, role_id, manager_id)
 VALUES
     ('James', 'Fraser', 1, NULL),
     ('Jack', 'London', 2 , 1),

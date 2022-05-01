@@ -22,7 +22,7 @@ const viewRoles = ( ) => {
     
 };
 const viewEmployees = ( ) => {
-    const sql = `SELECT employee.id AS id, employee.first_name AS first_name, employee.last_name AS last_name FROM employee`;
+    const sql = `SELECT employee.id, employee.first_name, employee.last_name FROM employee LEFT JOIN role ON employee.role_id = role.title`;
     connection.query(sql, (error, rows) => {
         if (error) throw error;
         console.table(rows);

@@ -1,14 +1,15 @@
-
+const path = require('path')
 // inquirer is imported
 const inquirer = require('inquirer');
 // mysql2 is imported
 const mysql = require('mysql2');
 // console.table is imported
 const cT = require('console.table');
-// const {functions} = require('./functions')
+const {viewDept, viewRoles, viewEmployees} = require('./functions.js')
+
 
 // questions to navigate tasks
-const promptUser = () => {
+const promptUser = async () => {
     return inquirer.prompt([
         {
             type: 'list',
@@ -23,22 +24,33 @@ const promptUser = () => {
                 'add an employee', 
                 'update an employee role', 
                 'add an employee manager',
-                'view employees by manager',
-                'view employees by department',
-                'delete department',
-                'delete roles',
-                'delete employees',
-                'view the total utilized budget of a department'
+                // 'view employees by manager',
+                // 'view employees by department',
+                // 'delete department',
+                // 'delete roles',
+                // 'delete employees',
+                // 'view the total utilized budget of a department'
             ]
         }
     ]).then((answer) => {
-        switch (answer) {
-            case 'view all departments':
-                viewDepts();
-                break;
-            case 'view all roles':
-                viewRoles();
-                break;
+        let choice = Object.values(answer);
+        if (choice == 'view all departments') {
+            viewDept();
+        };
+        if (choice == 'view all roles') {
+            viewRoles();
+        };
+        if (choice == 'view all employees') {
+            viewEmployees();
+        };
+        // if (choice == 'view all departments') {
+        //     viewDept();
+        // };
+
+        
+            // case 'view all roles':
+            //     viewRoles();
+            //     break;
             // case 'view all employees':
             //     viewEmployees();
             //     break;
@@ -71,14 +83,16 @@ const promptUser = () => {
             // case 'delete employees':
             //     delEmp();
             //     break;
-            default:
-                console.log(answer + 'is not an option!');
+            // default:
+            //     console.log(answer + 'is not an option!');
 
-        }
+        
     })
 }
 
 promptUser();
+
+module.exports = {promptUser};
 
 
 

@@ -1,3 +1,37 @@
+const mysql = require('mysql2');
+const connection = require('./db/connection.js')
+const {promptUser} = require('./app.js')
+const inquirer = require('inquirer');
+
+const viewDept = ( ) => {
+    const sql = `SELECT department.id AS id, department.department_name AS department FROM department`;
+    connection.query(sql, (error, rows) => {
+        if (error) throw error;
+        console.table(rows);
+        // promptUser();    
+    })
+    
+};
+const viewRoles = ( ) => {
+    const sql = `SELECT role.title AS job_title, role.department_id AS role_id, role.salary AS salary FROM role`;
+    connection.query(sql, (error, rows) => {
+        if (error) throw error;
+        console.table(rows);
+        // promptUser();    
+    })
+    
+};
+const viewEmployees = ( ) => {
+    const sql = `SELECT employee.id AS id, employee.first_name AS first_name, employee.last_name AS last_name FROM employee`;
+    connection.query(sql, (error, rows) => {
+        if (error) throw error;
+        console.table(rows);
+        // promptUser();    
+    })
+    
+};
+
+module.exports = {viewDept, viewRoles, viewEmployees};
 // {
 //     type: 'input',
 //     name: 'viewDeps',

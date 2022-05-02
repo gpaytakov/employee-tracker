@@ -5,7 +5,7 @@ const inquirer = require('inquirer');
 const mysql = require('mysql2');
 // console.table is imported
 const cT = require('console.table');
-const {viewDept, viewRoles, viewEmployees, addDept} = require('./functions.js')
+const {viewDept, viewRoles, viewEmployees, addDept, addRole, addEmployee} = require('./functions.js')
 
 
 // questions to navigate tasks
@@ -33,7 +33,7 @@ const promptUser = async () => {
             ]
         }
     ]).then((answer) => {
-        let choice = Object.values(answer);
+        let choice = answer.task;
         if (choice == 'view all departments') {
             viewDept();
         };
@@ -46,20 +46,12 @@ const promptUser = async () => {
         if (choice == 'add a department') {
             addDept();
         };
-
-        
-
-            // case 'add a department':
-            //     addDept();
-            //     break;
-            // case 'add a role':
-            //     addRole();
-            //     break;
-            // case 'add an employee':
-            //     addEmployee();
-            //     break;
-            // case 'update an employee role':
-            //     addEmpRole();
+        if (choice == 'add a role') {
+            addRole();
+        };
+        if (choice == 'add an employee') {
+            addEmployee();
+        }
             // case 'add an employee manager':
             //     addEmpManager();
             //     break;

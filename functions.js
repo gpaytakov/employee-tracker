@@ -13,7 +13,7 @@ const viewDept = ( ) => {
     
 };
 const viewRoles = ( ) => {
-    const sql = `SELECT role.title AS job_title, role.department_id AS role_id, role.salary AS salary FROM role;`;
+    const sql = `SELECT role.id AS id, role.title AS job_title, department.department_name AS department, role.salary AS salary FROM role LEFT JOIN department ON role.department_id = department.id;`;
     connection.query(sql, (error, rows) => {
         if (error) throw error;
         console.table(rows);
@@ -188,5 +188,25 @@ const addEmployee = ( ) => {
     })
 }
 
+const updateEmployee = ( ) => {
+    const gsql = `SELECT * FROM employee`;
+    connection.query(gsql, (error, rows) => {
+        if (error) throw error;
+        // res.json({
+        //     message: 'success',
+        //     data: rows
+        // });
+        console.log(rows);
+        return inquirer.prompt([
+            {
+                type: 'list',
+                name: 'choice',
+                choices: rows
+            }
+        ])         
+    })
+    
+}
 
-module.exports = {viewDept, viewRoles, viewEmployees, addDept, addRole, addEmployee};
+
+module.exports = {viewDept, viewRoles, viewEmployees, addDept, addRole, addEmployee, updateEmployee};

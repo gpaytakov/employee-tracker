@@ -5,7 +5,7 @@ const inquirer = require('inquirer');
 const mysql = require('mysql2');
 // console.table is imported
 const cT = require('console.table');
-const {viewDept, viewRoles, viewEmployees, addDept, addRole, addEmployee} = require('./functions.js')
+const {viewDept, viewRoles, viewEmployees, addDept, addRole, addEmployee, updateEmployee} = require('./functions.js')
 
 
 // questions to navigate tasks
@@ -22,14 +22,7 @@ const promptUser = async () => {
                 'add a department',
                 'add a role', 
                 'add an employee', 
-                'update an employee role', 
-                'add an employee manager',
-                // 'view employees by manager',
-                // 'view employees by department',
-                // 'delete department',
-                // 'delete roles',
-                // 'delete employees',
-                // 'view the total utilized budget of a department'
+                'update an employee role' 
             ]
         }
     ]).then((answer) => {
@@ -51,29 +44,10 @@ const promptUser = async () => {
         };
         if (choice == 'add an employee') {
             addEmployee();
-        }
-            // case 'add an employee manager':
-            //     addEmpManager();
-            //     break;
-            // case 'view employees by manager':
-            //     addEmpByManager();
-            //     break;
-            // case 'view employees by department':
-            //     viewEmpByDept();
-            //     break;
-            // case 'delete department':
-            //     delDept();
-            //     break;
-            // case 'delete roles':
-            //     delRoles();
-            //     break;
-            // case 'delete employees':
-            //     delEmp();
-            //     break;
-            // default:
-            //     console.log(answer + 'is not an option!');
-
-        
+        };
+        if (choice == 'update an employee role') {
+            updateEmployee();
+        };    
     })
 }
 

@@ -189,22 +189,61 @@ const addEmployee = ( ) => {
 }
 
 const updateEmployee = ( ) => {
-    const gsql = `SELECT * FROM employee`;
-    connection.query(gsql, (error, rows) => {
-        if (error) throw error;
-        // res.json({
-        //     message: 'success',
-        //     data: rows
-        // });
-        console.log(rows);
-        return inquirer.prompt([
-            {
-                type: 'list',
-                name: 'choice',
-                choices: rows
+    // viewEmployees();
+    // viewRoles();
+    return inquirer.prompt([
+        {
+            type: 'input',
+            name: 'id#',
+            message: 'Please enter the id # of an employee you want to update role!',
+            validate: input => {
+                if (/^\d+$/.test(input)) {
+                    return true;
+                } else {
+                    console.log('Please enter valid number!');
+                    return false;
+                }
             }
-        ])         
+        },
+        {
+            type: 'input',
+            name: 'new_role_id#',
+            message: 'Please enter the new role id # for the employee!',
+            validate: input => {
+                if (/^\d+$/.test(input)) {
+                    return true;
+                } else {
+                    console.log('Please enter valid number!');
+                    return false;
+                }
+            }
+        }
+        
+    ]).then(answer => {
+        console.log(answer);
+        const sql = `UPDATE employee SET role_id = 'answer.new_role_id#' WHERE id = 'answer.id#';`;
+        connection.query(sql, [answer.first_name, answer.last_name, answer.role_id, answer.manager_id], (error, result) => {
+            if (error) throw error;
+            console.log(`${answer.name}'s role is changed to ${answer.role_id}!`);
+            viewEmployees();            
+        })
     })
+    // const gsql = `SELECT employee. FROM employee`;
+    // connection.query(gsql, (error, rows) => {
+    //     if (error) throw error;
+    //     // res.json({
+    //     //     message: 'success',
+    //     //     data: rows
+    //     // });
+    //     console.log(rows);
+    //     return inquirer.prompt([
+    //         {
+    //             type: 'list',
+    //             name: 'choice',
+    //             choices: rows
+    //         }
+    //     ])         
+    // })
     
 }
 

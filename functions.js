@@ -112,7 +112,7 @@ const addRole = ( ) => {
             }
         }
     ]).then(answer => {
-        const sql = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?, ?)`;
+        const sql = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`;
         connection.query(sql, [answer.name, answer.salary, answer.department_id], (error, result) => {
             if (error) throw error;
             console.log(`${answer.name} is added to roles!`);
@@ -188,7 +188,6 @@ const addEmployee = ( ) => {
     })
 }
 
-
 const updateEmployee = ( ) => {
     const choices = [];
     const gsql = `SELECT employee.first_name, employee.last_name, employee.id FROM employee`;
@@ -230,6 +229,5 @@ const updateEmployee = ( ) => {
         });
     });
 }
-
 
 module.exports = {viewDept, viewRoles, viewEmployees, addDept, addRole, addEmployee, updateEmployee};

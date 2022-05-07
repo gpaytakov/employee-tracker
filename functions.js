@@ -188,62 +188,52 @@ const addEmployee = ( ) => {
     })
 }
 
+
 const updateEmployee = ( ) => {
-    // viewEmployees();
-    // viewRoles();
-    return inquirer.prompt([
-        {
-            type: 'input',
-            name: 'id#',
-            message: 'Please enter the id # of an employee you want to update role!',
-            validate: input => {
-                if (/^\d+$/.test(input)) {
-                    return true;
-                } else {
-                    console.log('Please enter valid number!');
-                    return false;
-                }
+    const choices = [];
+    const gsql = `SELECT employee.first_name, employee.last_name, employee.id FROM employee`;
+    connection.query(gsql, (error, rows) => {
+        if (error) throw error;  
+        const employees = rows.map(value => `${value.id} ${value.first_name} ${value.last_name}`);
+        return inquirer.prompt([
+            {
+                type: 'list',
+                name: 'choice',
+                message: 'Please choose the employee you want to change the role?',
+                choices: employees
             }
-        },
-        {
-            type: 'input',
-            name: 'new_role_id#',
-            message: 'Please enter the new role id # for the employee!',
-            validate: input => {
-                if (/^\d+$/.test(input)) {
-                    return true;
-                } else {
-                    console.log('Please enter valid number!');
-                    return false;
-                }
-            }
-        }
-        
-    ]).then(answer => {
-        console.log(answer);
-        const sql = `UPDATE employee SET role_id = 'answer.new_role_id#' WHERE id = 'answer.id#';`;
-        connection.query(sql, [answer.first_name, answer.last_name, answer.role_id, answer.manager_id], (error, result) => {
-            if (error) throw error;
-            console.log(`${answer.name}'s role is changed to ${answer.role_id}!`);
-            viewEmployees();            
+        ]).then(answer => {
+            choices.push(answer);
+            const gsql = `SELECT role.id, role.title FROM role`;
+            connection.query(gsql, (error, rows) => {
+                if (error) throw error;
+                // console.log(rows);  
+                const roles = rows.map(value => `${value.id} ${value.title}`);
+                return inquirer.prompt([
+                    {
+                        type: 'list',
+                        name: 'choice',
+                        message: 'Please choose the employee you want to change the role?',
+                        choices: roles
+                    }
+                ]).then(answer => {
+                    choices.push(answer);
+                    console.log(choices);
+                    const id = choices[0].choice[0].split(' ');
+                    const role_id = choices[1].choice[0].split(' ');
+                    const sql = `
+                    UPDATE employee SET role_id = ? WHERE id = ?
+                    `;
+                    connection.query(sql, [role_id, id], (error, result) => {
+                        if (error) throw error;
+                        console.log(`${id}'s role is changed to ${role_id}!`);
+                        console.log(result);
+                        viewEmployees()
+                    })            
+                })
+            })
         })
-    })
-    // const gsql = `SELECT employee. FROM employee`;
-    // connection.query(gsql, (error, rows) => {
-    //     if (error) throw error;
-    //     // res.json({
-    //     //     message: 'success',
-    //     //     data: rows
-    //     // });
-    //     console.log(rows);
-    //     return inquirer.prompt([
-    //         {
-    //             type: 'list',
-    //             name: 'choice',
-    //             choices: rows
-    //         }
-    //     ])         
-    // })
+    });
     
 }
 

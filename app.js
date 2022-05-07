@@ -5,7 +5,8 @@ const inquirer = require('inquirer');
 const mysql = require('mysql2');
 // console.table is imported
 const cT = require('console.table');
-const {viewDept, viewRoles, viewEmployees, addDept, addRole, addEmployee, updateEmployee} = require('./functions.js')
+const {viewDept, viewRoles, viewEmployees, addDept, addRole, addEmployee, updateEmployee} = require('./functions.js');
+const connection = require('./db/connection.js');
 
 
 // questions to navigate tasks
@@ -22,7 +23,8 @@ const promptUser = async () => {
                 'add a department',
                 'add a role', 
                 'add an employee', 
-                'update an employee role' 
+                'update an employee role',
+                'exit' 
             ]
         }
     ]).then((answer) => {
@@ -47,6 +49,9 @@ const promptUser = async () => {
         };
         if (choice == 'update an employee role') {
             updateEmployee();
+        };
+        if (choice == 'exit') {
+            connection.end();
         };    
     })
 }

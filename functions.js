@@ -206,8 +206,7 @@ const updateEmployee = ( ) => {
             choices.push(answer);
             const gsql = `SELECT role.id, role.title FROM role`;
             connection.query(gsql, (error, rows) => {
-                if (error) throw error;
-                // console.log(rows);  
+                if (error) throw error; 
                 const roles = rows.map(value => `${value.id} ${value.title}`);
                 return inquirer.prompt([
                     {
@@ -218,23 +217,18 @@ const updateEmployee = ( ) => {
                     }
                 ]).then(answer => {
                     choices.push(answer);
-                    console.log(choices);
                     const id = choices[0].choice[0].split(' ');
                     const role_id = choices[1].choice[0].split(' ');
-                    const sql = `
-                    UPDATE employee SET role_id = ? WHERE id = ?
-                    `;
+                    const sql = `UPDATE employee SET role_id = ? WHERE id = ?`;
                     connection.query(sql, [role_id, id], (error, result) => {
                         if (error) throw error;
-                        console.log(`${id}'s role is changed to ${role_id}!`);
-                        console.log(result);
+                        console.log('Employee after role change');
                         viewEmployees()
-                    })            
-                })
-            })
-        })
+                    });            
+                });
+            });
+        });
     });
-    
 }
 
 

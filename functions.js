@@ -182,7 +182,7 @@ const addEmployee = ( ) => {
         const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`;
         connection.query(sql, [answer.first_name, answer.last_name, answer.role_id, answer.manager_id], (error, result) => {
             if (error) throw error;
-            console.log(`${answer.name} is added to employees!`);
+            console.log(`${answer.first_name} is added to employees!`);
             viewEmployees();            
         })
     })
@@ -221,7 +221,7 @@ const updateEmployee = ( ) => {
                     const sql = `UPDATE employee SET role_id = ? WHERE id = ?`;
                     connection.query(sql, [role_id, id], (error, result) => {
                         if (error) throw error;
-                        console.log('Employee after role change');
+                        console.log('Employees after role change');
                         viewEmployees()
                     });            
                 });

@@ -24,8 +24,9 @@ Employee tracker app will help business owners to view, manage the departments, 
 The scrrencastify video link given below will walk you through
 
 1. What softwares are required to install
-2. Shows the usage of app
-   step by step.
+2. Shows the usage of app step by step.
+
+Screencastify Link: https://watch.screencastify.com/v/CJUSFpbcS5YOpArUrVIZ
 ```
 
 ## Contributors
